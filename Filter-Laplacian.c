@@ -14,13 +14,14 @@ int main(int argc,char *argv[])
                         {1, -8, 1},
                         {1, 1, 1}}; 
     int offset[3] = {-1, 0, 1};
+
+    if(argc < 4){
+	puts("usage: laplacian [Input filename] [Output filename] [size]");
+	exit(-1);
+    }
     fin = fopen(argv[1],"rb");
     fout = fopen(argv[2],"wb");
     int size = atoi(argv[3]);
-    if(argc < 3){
-	puts("usage: inverse [Input filename] [Output filename]");
-	exit(-1);
-    }
 
     //mat malloc
     src = malloc(sizeof(int*) * size);

@@ -1,11 +1,3 @@
-/*                                                             */
-/*                                                             */
-/*      usage : inverse [Input filename] [Output filename]     */
-/*                                                             */
-/*      December 22  2007                                      */
-/*                                                             */
-/*                                                             */
-
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -17,7 +9,7 @@ int main(int argc,char *argv[])
 
 
     if(argc < 4){
-	puts("usage: inverse [Input filename] [Output filename]");
+	puts("usage: isohighlightLine [Input filename] [Output filename] [range]");
 	exit(-1);
     }
     fin = fopen(argv[1],"rb");
@@ -30,10 +22,10 @@ int main(int argc,char *argv[])
     }
     if(fout == NULL)puts("out");
     while((c = getc(fin)) != EOF){    /* input image data */
-        if(range == 1){
+        if(range <= 1){
             putc(c, fout);
         }else{
-            putc((int)(k * c / (range - 1)),fout);            /* output the result */
+            putc((int)(k * (c % range) / (range - 1)), fout);            /* output the result */
         }
     }
 

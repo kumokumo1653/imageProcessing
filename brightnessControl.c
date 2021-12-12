@@ -1,10 +1,3 @@
-/*                                                             */
-/*                                                             */
-/*      usage : inverse [Input filename] [Output filename]     */
-/*                                                             */
-/*      December 22  2007                                      */
-/*                                                             */
-
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -16,7 +9,7 @@ int main(int argc,char *argv[])
 
 
     if(argc < 5){
-	puts("usage: inverse [Input filename] [Output filename]");
+	puts("usage: brightnessControl [Input filename] [Output filename] [min] [max]");
 	exit(-1);
     }
     
