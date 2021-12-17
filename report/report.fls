@@ -158,11 +158,19 @@ INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/./ham512.bmp
 INPUT extractbb -B cropbox -O ./ham512.bmp
 INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/./after-ham512.bmp
 INPUT extractbb -B cropbox -O ./after-ham512.bmp
+INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/original.jpg
+INPUT extractbb -B cropbox -O original.jpg
+INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/1calc.jpg
+INPUT extractbb -B cropbox -O 1calc.jpg
+INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/2calc.jpg
+INPUT extractbb -B cropbox -O 2calc.jpg
 INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/../Filter-Laplacian.c
 INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/../Filter-Laplacian.c
 INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/./building.bmp
 INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/./laplacian-building.bmp
 INPUT extractbb -B cropbox -O ./laplacian-building.bmp
+INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/diff.jpg
+INPUT extractbb -B cropbox -O diff.jpg
 INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/../Filter-Sharpening.c
 INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/../Filter-Sharpening.c
 INPUT c:/Users/kumomomo/Studying/5J/imageProcessing/report/./building.bmp

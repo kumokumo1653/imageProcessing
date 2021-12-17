@@ -207,6 +207,79 @@
       3$\times$3空間フィルタによる8近傍ラプラシアンを実行し，エッジ抽出を行え．
     \end{itembox}
   \subsection{理論}
+    課題2ではフィルタを用いた画像処理を行う。3$\times$3のフィルタを画像の各画素に適用する。フィルタとそのフィルタに対応する画素値をフィルタの値と掛け合わせる。
+    それらの総和を変換後の画素値とする。本課題では3$\times$3のフィルタを適用するため、近傍の8つと対象のピクセルの値と対応するフィルタの値をかけ、その値の総和を
+    対象ピクセルの変換後の値とする。
+
+    さて、ここで図\ref{fig:original}のような濃度変化をする画像があるとする。横軸が座標であり縦軸がその時の濃度値である。
+    \begin{figure}[H]
+     \centering
+     \includegraphics[scale=.7]{original.jpg} 
+     \caption{元画像}
+     \label{fig:original}
+    \end{figure}
+    図\ref{fig:original}の画像を一階微分した濃度変化を図\ref{fig:1calc}に示す。さらに二階微分した濃度変化を図\ref{fig:2calc}に示す。
+    \begin{figure}[H]
+     \centering
+     \includegraphics[scale=.7]{1calc.jpg} 
+     \caption{一階微分}
+     \label{fig:1calc}
+    \end{figure}
+    \begin{figure}[H]
+     \centering
+     \includegraphics[scale=.7]{2calc.jpg} 
+     \caption{二階微分}
+     \label{fig:2calc}
+    \end{figure}
+
+    図\ref{fig:2calc}のように二階微分をすることで元画像の濃度変化する部分が出現することがわかる。
+    画像データでは濃度変化は離散的に起こるため微分は単なる差分として表現することができる。
+    式\eqref{eq:calcx},\eqref{eq:calcy}にそれぞれx方向、y方向の一階微分を示す。式\eqref{eq:calcx},\eqref{eq:calcy}にそれぞれ右上がり斜め方向、左上がり斜め方向の一階微分を示す。
+    $i,j$は画像でのピクセルの存在する座標を示す。
+    \begin{equation}\label{eq:calcx}
+      f_x(i, j) = f(i + 1, j) - f(i, j)   
+    \end{equation}
+    \begin{equation}\label{eq:calcy}
+      f_y(i, j) = f(i, j + 1) - f(i, j)   
+    \end{equation}
+    \begin{equation}\label{eq:calcr}
+      f_r(i, j) = f(i + 1, j + 1) - f(i, j)   
+    \end{equation}
+    \begin{equation}\label{eq:calcl}
+      f_l(i, j) = f(i - 1, j + 1) - f(i, j)   
+    \end{equation}
+    さらに微分した2階微分は式\eqref{eq:calcxx}--\eqref{eq:calcll}のようになる。
+    \begin{equation}\label{eq:calcxx}
+      f_{xx}(i, j) = \{f(i + 1, j) - f(i, j)\} - \{f(i, j) - f(i - 1,j)\}  
+    \end{equation}
+    \begin{equation}\label{eq:calcyy}
+      f_{yy}(i, j) = \{f(i, j + 1) - f(i, j)\} - \{f(i, j) - f(i, j - 1)\}  
+    \end{equation}
+    \begin{equation}\label{eq:calcrr}
+      f_{rr}(i, j) = \{f(i + 1, j + 1) - f(i, j)\} - \{f(i, j) - f(i - 1, j - 1)\}  
+    \end{equation}
+    \begin{equation}\label{eq:calcll}
+      f_{ll}(i, j) = \{f(i + 1, j - 1) - f(i, j)\} - \{f(i, j) - f(i + 1, j - 1)\}  
+    \end{equation}
+
+    ここでラプラシアン$\nabla^2f(i,j)$を式\eqref{eq:laplacian}のように定義する.
+    \begin{eqnarray}\label{eq:laplacian}
+      \nabla^2f(i, j) &=& f_{ll}(i, j) + f_{yy}(i, j) +f_{rr}(i, j) +f_{ll}(i, j) \nonumber \\
+      &=& f(i - 1, j- 1)  + f(i, j - 1) + f(i + 1, j - 1) + f(i - 1, j) + f(i + 1, j) + \nonumber\\
+      &&f(i - 1, j + 1) + f(i, j + 1) + f(i + 1, j + 1) - 8f(i,j)
+    \end{eqnarray}
+
+    よって8近傍ラプラシアンフィルタを次のようになる。
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|c|c|c|}
+      \hline
+      1 & 1  & 1 \\\hline
+      1 & -8 & 1 \\\hline
+      1 & 1  & 1 \\\hline
+      \end{tabular}
+    \end{table}
+
   \subsection{プログラム}
     プログラムリスト\ref{p:Filter-Laplacian}に空間フィルタによりラプラシアン8近傍を適用するプログラムを示す。
     \lstinputlisting[caption=ラプラシアン,label=p:Filter-Laplacian]{../Filter-Laplacian.c}
@@ -241,6 +314,32 @@
       画像の先鋭化を行うプログラムを示せ。
     \end{itembox}
   \subsection{理論}
+    先鋭化とは元画像からラプラシアン画像を引くことである。
+    図\ref{fig:diff}に二階微分した画像を元画像から引いた画像を示す。
+    \begin{figure}[H]
+     \centering
+     \includegraphics[scale=.7]{diff.jpg} 
+     \caption{元画像-二階微分}
+     \label{fig:diff}
+    \end{figure}
+    図\ref{fig:diff}より濃度変化が起こるエッジ部分を強調する画像を生成することができる。
+    二階微分はラプラシアンとして式\ref{eq:laplacian}として定義したため、元画像から二階微分を引く先鋭化は式のように示される。
+    \begin{eqnarray}\label{eq:sharp}
+      g(i, j) &=& f(i ,j) - \nabla^2f(i,j) \nonumber\\
+            &=& 9f(i,j) - f(i - 1, j- 1)  - f(i, j - 1) - f(i + 1, j - 1) - f(i - 1, j) -  \nonumber\\
+            &&f(i + 1, j) - f(i - 1, j + 1) - f(i, j + 1) - f(i + 1, j + 1)  
+    \end{eqnarray}
+
+    よって先鋭化フィルタを次のようになる。
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|c|c|c|}
+      \hline
+      -1 & -1  & -1 \\\hline
+      -1 & 9 & -1 \\\hline
+      -1 & -1  & -1 \\\hline
+      \end{tabular}
+    \end{table}
   \subsection{プログラム}
     プログラムリスト\ref{p:Filter-Laplacian}に空間フィルタにより先鋭化を行うプログラムを示す。
     \lstinputlisting[caption=先鋭化,label=p:Filter-Sharpening]{../Filter-Sharpening.c}
@@ -275,7 +374,7 @@
       ラプラシアンの空間フィルタを適用した結果の画像を，適当な閾値を設定して2値化し，輪郭線画像を作成せよ．
     \end{itembox}
   \subsection{理論}
-    式\eqref{eq:binarize}に輝度調整の変換関数を示す。MAX,MINは指定する閾値である。
+    式\eqref{eq:binarize}に二値化の変換関数を示す。thresholdは指定する閾値である。
     \begin{equation} \label{eq:binarize}
       f(x) = 
       \begin{cases}
